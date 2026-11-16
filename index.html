@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dillo - Dillo a voce, il preventivo e' fatto</title>
+<meta name="description" content="Manda un vocale su Telegram e ricevi un preventivo PDF professionale, calcolato con il tuo listino, pronto da inviare al cliente.">
+<meta name="theme-color" content="#14304f">
+<style>
+:root{--blu:#14304f;--blu2:#1f3a5f;--arancio:#ff7a1a;--arancio-s:#c24f00;--testo:#1b2430;--grigio:#56606d;--chiaro:#f3f6fa;--linea:#dbe2ea;--r:14px}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--testo);line-height:1.55;font-size:18px;background:#fff}
+a{color:inherit}
+.w{max-width:1040px;margin:0 auto;padding:0 20px}
+section{padding:56px 0}
+h1,h2,h3{line-height:1.15;margin:0 0 .5em;color:var(--blu)}
+h1{font-size:clamp(2rem,7.5vw,3.4rem)}
+h2{font-size:clamp(1.55rem,5vw,2.2rem);text-align:center;margin-bottom:1.2em}
+h3{font-size:1.15rem}
+.btn{display:inline-block;background:var(--arancio);color:#1b1000;font-weight:800;text-decoration:none;padding:16px 28px;border-radius:12px;font-size:1.1rem;min-height:52px;box-shadow:0 3px 0 var(--arancio-s)}
+.btn:hover{filter:brightness(1.05)}
+.btn:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid #0b5fff;outline-offset:3px}
+header.top{background:var(--blu);color:#fff}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:14px 0}
+.logo{font-weight:900;font-size:1.5rem;letter-spacing:.5px;text-decoration:none}
+.logo span{color:var(--arancio)}
+.nav a.link{color:#fff;font-weight:700;text-decoration:none;border:2px solid #fff;padding:8px 14px;border-radius:10px;font-size:.95rem}
+.hero{padding:36px 0 64px}
+.hero h1{color:#fff}
+.hero p.sub{font-size:1.2rem;color:#dbe6f3;max-width:34em}
+.hero .nota{font-size:.9rem;color:#b9c9dc;margin-top:12px}
+.hero .grid{display:grid;gap:32px}
+.chat{background:#fff;color:var(--testo);border-radius:var(--r);padding:16px;max-width:380px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.bolla{border-radius:14px;padding:10px 14px;margin:8px 0;font-size:.95rem;max-width:92%}
+.io{background:#e3f1ff;margin-left:auto}
+.bot{background:var(--chiaro)}
+.onda{display:flex;align-items:center;gap:3px;height:22px}
+.onda i{display:block;width:3px;background:var(--blu2);border-radius:2px}
+.passi{display:grid;gap:18px;counter-reset:p}
+.passo{background:var(--chiaro);border-radius:var(--r);padding:22px 22px 22px 78px;position:relative}
+.passo::before{counter-increment:p;content:counter(p);position:absolute;left:20px;top:20px;width:42px;height:42px;border-radius:50%;background:var(--blu);color:#fff;font-weight:900;font-size:1.3rem;display:flex;align-items:center;justify-content:center}
+.passo p{margin:0;color:var(--grigio)}
+.alt{background:var(--chiaro)}
+.pdfwrap{display:grid;gap:28px;align-items:start}
+.foglio{background:#fff;border:1px solid var(--linea);border-radius:6px;padding:22px 18px;box-shadow:0 8px 24px rgba(20,48,79,.12);font-size:.82rem;overflow-x:auto}
+.foglio .t{display:flex;justify-content:space-between;border-bottom:2px solid var(--blu2);padding-bottom:8px;color:var(--blu2);font-weight:800;gap:12px}
+.foglio .t small{font-weight:400;color:var(--grigio);display:block}
+.foglio table{width:100%;border-collapse:collapse;margin-top:12px;min-width:430px}
+.foglio th{background:var(--blu2);color:#fff;text-align:left;padding:6px;font-size:.75rem}
+.foglio td{padding:6px;border-bottom:1px solid var(--linea)}
+.foglio .d{text-align:right;white-space:nowrap}
+.foglio tr.giallo td{background:#fff2b3}
+.foglio .tot{text-align:right;margin-top:10px;font-weight:800;color:var(--blu2);font-size:1rem}
+.foglio .av{margin-top:12px;border:1px solid var(--blu2);padding:8px;font-style:italic;color:var(--blu2);font-size:.75rem}
+.ese{font-size:.9rem;color:var(--grigio);margin-top:10px}
+.vantaggi{display:grid;gap:16px}
+.card{border:1px solid var(--linea);border-radius:var(--r);padding:20px}
+.card p{margin:0;color:var(--grigio)}
+.prezzo{max-width:520px;margin:0 auto;text-align:center;border:3px solid var(--blu);border-radius:var(--r);padding:30px 22px}
+.prezzo .cifra{font-size:clamp(2.2rem,9vw,3.2rem);font-weight:900;color:var(--blu)}
+.prezzo .cifra small{font-size:1rem;font-weight:600;color:var(--grigio)}
+.prezzo ul{list-style:none;padding:0;margin:18px 0;text-align:left}
+.prezzo li{padding:6px 0 6px 28px;position:relative}
+.prezzo li::before{content:"\2713";position:absolute;left:0;color:#0a7a3d;font-weight:900}
+details{border:1px solid var(--linea);border-radius:12px;margin:10px 0;background:#fff}
+summary{cursor:pointer;font-weight:700;padding:16px 18px;min-height:52px;color:var(--blu)}
+details p{margin:0;padding:0 18px 16px;color:var(--grigio)}
+.finale{background:var(--blu);color:#fff;text-align:center}
+.finale h2{color:#fff}
+.finale p{color:#dbe6f3}
+footer{padding:26px 0;font-size:.85rem;color:var(--grigio);text-align:center}
+@media(min-width:760px){
+.hero .grid{grid-template-columns:1.2fr 1fr;align-items:center}
+.passi{grid-template-columns:repeat(3,1fr)}
+.passo{padding:78px 20px 22px}
+.passo::before{left:20px;top:20px}
+.pdfwrap{grid-template-columns:1fr 1fr;align-items:center}
+.vantaggi{grid-template-columns:1fr 1fr}
+section{padding:76px 0}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="w">
+    <div class="nav">
+      <a class="logo" href="#">Dillo<span>.</span></a>
+      <a class="link" href="#prova">Prova gratis</a>
+    </div>
+    <div class="hero">
+      <div class="grid">
+        <div>
+          <h1>Dillo a voce, il preventivo e' fatto.</h1>
+          <p class="sub">Sei sul cantiere e hai le mani sporche? Manda un vocale su Telegram. Ti torna un preventivo PDF ordinato, con i tuoi prezzi, pronto da mandare al cliente.</p>
+          <a class="btn" href="#prova">Prova gratis</a>
+          <p class="nota">Funziona su Telegram. Nessuna app da installare oltre a Telegram.</p>
+        </div>
+        <div class="chat" aria-label="Esempio di conversazione su Telegram">
+          <div class="bolla io">
+            <div class="onda" aria-hidden="true"><i style="height:8px"></i><i style="height:16px"></i><i style="height:10px"></i><i style="height:22px"></i><i style="height:12px"></i><i style="height:18px"></i><i style="height:8px"></i><i style="height:20px"></i><i style="height:11px"></i><i style="height:15px"></i></div>
+            <small>Vocale 0:24</small>
+          </div>
+          <div class="bolla bot">Ho capito 3 voci. Controlla il riepilogo prima dell'invio.</div>
+          <div class="bolla bot"><strong>Preventivo-esempio.pdf</strong><br><small>Pronto da inoltrare al cliente</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section id="come">
+  <div class="w">
+    <h2>Come funziona, in tre passi</h2>
+    <div class="passi">
+      <div class="passo"><h3>Detta il lavoro</h3><p>Apri la chat su Telegram e manda un vocale: cliente, lavori da fare, materiali. Parli come parli tutti i giorni.</p></div>
+      <div class="passo"><h3>Controlla il riepilogo</h3><p>Il servizio applica il tuo listino e ti mostra le voci e il totale. Se qualcosa non torna, lo correggi a voce.</p></div>
+      <div class="passo"><h3>Ricevi il PDF</h3><p>Il preventivo arriva in chat, in PDF, con un aspetto professionale. Lo invii al cliente quando sei d'accordo.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="esempio">
+  <div class="w">
+    <h2>Ecco che aspetto ha il preventivo</h2>
+    <div class="pdfwrap">
+      <div class="foglio" role="img" aria-label="Anteprima di un preventivo di esempio con tre voci, totale e avviso di revisione">
+        <div class="t"><div>Rossi Impianti (esempio)</div><div style="text-align:right">PREVENTIVO<small>n. 1 - dati di fantasia</small></div></div>
+        <p style="margin:10px 0 0"><strong>Cliente:</strong> Maria Bianchi, Via Roma 10</p>
+        <table>
+          <thead><tr><th>Descrizione</th><th class="d">Q.ta</th><th class="d">Unit.</th><th class="d">Importo</th></tr></thead>
+          <tbody>
+            <tr><td>Sostituzione miscelatore bagno</td><td class="d">1</td><td class="d">90,00 &euro;</td><td class="d">90,00 &euro;</td></tr>
+            <tr><td>Manodopera</td><td class="d">2 ore</td><td class="d">35,00 &euro;</td><td class="d">70,00 &euro;</td></tr>
+            <tr class="giallo"><td>Sifone da 40</td><td class="d">1</td><td class="d" colspan="2"><strong style="color:#b00020">DA PREZZARE</strong></td></tr>
+          </tbody>
+        </table>
+        <div class="tot">Totale parziale: 195,20 &euro;</div>
+        <div class="av">Preventivo generato con assistenza automatica. Importi e voci vanno controllati prima dell'invio al cliente.</div>
+      </div>
+      <div>
+        <h3>Ordinato, chiaro, tuo</h3>
+        <p>Righe numerate, quantita', prezzi, IVA e totale. Se manca un prezzo nel tuo listino, la voce resta evidenziata in giallo come "DA PREZZARE": il servizio non se lo inventa.</p>
+        <p class="ese">Esempio con dati di fantasia, a scopo illustrativo.</p>
+        <p><a href="esempio-preventivo.pdf">Apri il PDF di esempio</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="vantaggi">
+  <div class="w">
+    <h2>Perche' Dillo</h2>
+    <div class="vantaggi">
+      <div class="card"><h3>Usa il TUO listino</h3><p>Tariffa oraria, prezzi dei materiali, ricarico e IVA sono quelli che decidi tu. I prezzi non vengono mai inventati.</p></div>
+      <div class="card"><h3>Capisce accenti e dialetti</h3><p>Parli come sei abituato. Il servizio e' pensato per capire l'italiano parlato, con le sue inflessioni e il gergo di cantiere. Se qualcosa non e' chiaro, te lo chiede.</p></div>
+      <div class="card"><h3>Invio diretto al cliente</h3><p>Ricevi il PDF in chat e lo mandi al cliente senza ricopiare nulla al computer.</p></div>
+      <div class="card"><h3>Avviso di revisione prima di inviare</h3><p>Prima di spedire controlli tu voci e importi. L'ultima parola e' sempre tua, e il PDF riporta l'avviso di verifica.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="prezzi">
+  <div class="w">
+    <h2>Prezzi semplici</h2>
+    <div class="prezzo">
+      <div class="cifra">Da 19 a 29 &euro; <small>al mese</small></div>
+      <p style="margin:6px 0 0;color:var(--grigio)">Prova gratuita per iniziare. Il piano definitivo e i dettagli verranno comunicati prima di qualsiasi addebito.</p>
+      <ul>
+        <li>Preventivi in PDF dai tuoi vocali</li>
+        <li>Il tuo listino personale</li>
+        <li>Revisione prima dell'invio</li>
+        <li>Nessun pagamento per provare</li>
+      </ul>
+      <a class="btn" href="#prova">Prova gratis</a>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="w" style="max-width:760px">
+    <h2>Domande frequenti</h2>
+    <details><summary>Serve installare qualcosa?</summary><p>Solo Telegram, se non ce l'hai gia'. Il servizio funziona dentro una chat.</p></details>
+    <details><summary>E' un preventivo valido?</summary><p>Il PDF e' una bozza ben fatta, ma la responsabilita' dei contenuti e' tua: per questo ti chiediamo sempre di controllarlo prima di inviarlo. Per gli aspetti fiscali, rivolgiti al tuo commercialista.</p></details>
+    <details><summary>Dove vengono presi i prezzi?</summary><p>Dal tuo listino. Se una voce non c'e', viene segnata "DA PREZZARE" invece di inventare un importo.</p></details>
+    <details><summary>E se il vocale non viene capito bene?</summary><p>Vedi il riepilogo prima del PDF e puoi correggere a voce. Il riconoscimento del parlato non e' perfetto: per questo la revisione c'e'.</p></details>
+    <details><summary>Posso annullare quando voglio?</summary><p>Le condizioni di abbonamento verranno indicate chiaramente prima dell'attivazione di qualunque pagamento.</p></details>
+    <details><summary>I miei dati e quelli dei clienti?</summary><p>Servono solo per creare i preventivi. L'informativa sulla privacy completa sara' disponibile prima del lancio.</p></details>
+  </div>
+</section>
+
+<section class="finale" id="prova">
+  <div class="w">
+    <h2>Prova Dillo gratis</h2>
+    <p>Il servizio e' in fase di avvio. Qui comparira' il collegamento per iniziare la prova su Telegram.</p>
+    <p>Scrivici a info@dillopreventivo.it</p>
+    <!-- SEGNAPOSTO: sostituire con il link al bot Telegram o con il modulo di iscrizione -->
+    <a class="btn" href="#prova">Prova gratis</a>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="w">Dillo - Dillo a voce, il preventivo e' fatto.<br>Pagina provvisoria. Gli esempi usano dati di fantasia.</div>
+</footer>
+</body>
+</html>
